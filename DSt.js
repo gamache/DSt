@@ -21,37 +21,38 @@
 var DSt                   // <-- to change the global namespace, do it here
 = (function(){var DSt = { // <-- not here
 
-  version: 0.001002,
+  version: 0.001003,
   
   get: function (key) {
     var hash = DSt._gethash();
     return hash[key];
   },
+
   set: function (key, value) {
     var hash = DSt._gethash();
     hash[key] = value;
     DSt._sethash(hash);
     return hash[key];
   },
+
   _gethash: function () {
-    if (localStorage.DSt == ''  ||
-        localStorage.DSt == 'null' ||
-        localStorage.DSt == 'undefined' ||
-        typeof(localStorage.DSt) != 'string' ) {
+    if(typeof(localStorage.DSt) != 'string' ) {
       localStorage.DSt = '{}';
     }
     return JSON.parse(localStorage.DSt);
   },
+
   _sethash: function (new_hash) {
     localStorage.DSt = JSON.stringify(new_hash);
     return new_hash;
   },
 
+
   store: function (elt) {
     if (typeof(elt) == 'string') {
       elt = document.getElementById(elt);
     }
-    var key = '_form_' + elt.form.name + '_field_' + elt.name;
+    var key = DSt._form_elt_key(elt);
 
     if (elt.type == 'checkbox') {
       DSt.set(key, elt.checked);
@@ -89,6 +90,7 @@ var DSt                   // <-- to change the global namespace, do it here
       if (node.tagName == 'INPUT') DSt.recall(node);  
     }
   },
+
 
   // storage_types() returns a string containing every supported
   // storage mechanism
