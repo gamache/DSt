@@ -1,0 +1,5 @@
+0.001002  detabbed to 2spc; wrapped DSt definition in anonymous function to
+          allow changing global namespace
+
+0.001001  first commit!  set, get, store, recall, populate, storage_types
+
