@@ -10,7 +10,6 @@
    DSt uses the localStorage mechanism to provide per-site, persistent
    storage of JSON-encodable data.
 
-
    USAGE:
 
     DSt.set(key, value);         // sets stored value for given key
