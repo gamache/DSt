@@ -1,0 +1,31 @@
+                        
+                            _/_/_/      _/_/_/    _/
+                           _/    _/  _/        _/_/_/_/
+                          _/    _/    _/_/      _/
+                         _/    _/        _/    _/
+                        _/_/_/    _/_/_/        _/_/
+
+
+     A simple, lightweight JavaScript library for using HTML5 DOM Storage
+
+             copyright 2010  pete gamache  gamache@#$!@#$gmail.com
+
+
+
+DSt is designed to make using HTML5 DOM Storage easy and automatic.  DSt does
+not depend on any JavaScript frameworks and will work on any browser where 
+localStorage is implemented (e.g. Firefox 3.5, IE 8, Safari 4, Chrome 4).
+
+
+Usage:
+
+    DSt.set(key, value);         // sets stored value for given key
+    var value = DSt.get(key);    // returns stored value for given key
+
+    DSt.store(input_elt);        // stores value of a form input element
+    DSt.recall(input_elt);       // recalls stored value of a form input elt
+
+    DSt.store_form(form_elt);    // runs DSt.store(elt) on each form input
+    DSt.populate_form(form_elt); // runs DSt.recall(elt) on each form input
+
+

@@ -2,7 +2,7 @@
    a simple, agnostic DOM Storage library.
    http://github.com/gamache/DSt
     
-   AUTHORSHIP
+   AUTHORSHIP:
    copyright 2010  pete gamache  gamache!@#$!@#gmail.com
    licensed under the MIT License and/or the GPL version 2
 
@@ -10,19 +10,28 @@
    DSt uses the localStorage mechanism to provide per-site, persistent
    storage of JSON-encodable data.
 
+
    USAGE:
-   DSt.set(key, value);
-   var value = DSt.get(key);
-   DSt.store(input_elt);      // stores value of a form input element
-   DSt.recall(input_elt);     // recalls stored value of a form input element
-   DST.populate(form_elt);    // recalls each of a form's input elements
+
+    DSt.set(key, value);         // sets stored value for given key
+    var value = DSt.get(key);    // returns stored value for given key
+
+    DSt.store(input_elt);        // stores value of a form input element
+    DSt.recall(input_elt);       // recalls stored value of a form input elt
+
+    DSt.store_form(form_elt);    // runs DSt.store(elt) on each form input
+    DSt.populate_form(form_elt); // runs DSt.recall(elt) on each form input
+
+	  Element IDs may always be given in place of the elements themselves.
 */
+
 
 var DSt                   // <-- to change the global namespace, do it here
 = (function(){var DSt = { // <-- not here
 
-  version: 0.001003,
+  version: 0.002001,
   
+
   get: function (key) {
     var hash = DSt._gethash();
     return hash[key];
@@ -57,6 +66,9 @@ var DSt                   // <-- to change the global namespace, do it here
     if (elt.type == 'checkbox') {
       DSt.set(key, elt.checked);
     }
+		else if (elt.type == 'radio') {
+			if (elt.checked) DSt.set(key, elt.value);
+		}
     else {
       DSt.set(key, elt.value);
     }
@@ -72,6 +84,9 @@ var DSt                   // <-- to change the global namespace, do it here
     if (elt.type == 'checkbox') {
       elt.checked = stored_value==true;
     }
+		else if (elt.type == 'radio') {
+			if (elt.value == stored_value) elt.checked = true;
+		}
     else {
       elt.value = stored_value || '';
     }
@@ -82,19 +97,30 @@ var DSt                   // <-- to change the global namespace, do it here
   },
 
 
-  populate: function (form) {
-    if (typeof(form) == 'string') {
-      form = document.getElementById(form);
-    }
-    for (var node in form.childNodes) {
-      if (node.tagName == 'INPUT') DSt.recall(node);  
-    }
+
+	recall_form: function (form) {
+    return DSt._apply_fn_to_form_inputs(form, DSt.recall);
   },
 
+	store_form: function (form) {
+    return DSt._apply_fn_to_form_inputs(form, DSt.store);
+	},
 
-  // storage_types() returns a string containing every supported
+  _apply_fn_to_form_inputs: function (form, fn) {
+    if (typeof(form)=='string') form=document.getElementById(form);
+    for (var i in form.childNodes) {
+      var node = form.childNodes[i];
+      if (node.tagName == 'INPUT' || node.tagName == 'TEXTAREA') {
+        fn(node);
+      }
+    }
+  },
+	
+
+
+  // _storage_types() returns a string containing every supported
   // storage mechanism
-  storage_types: function () {
+  _storage_types: function () {
     var st = '';
     for (var i in window) {
       if (i=='sessionStorage' || i=='globalStorage' ||
