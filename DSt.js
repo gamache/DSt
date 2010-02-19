@@ -31,13 +31,13 @@ var DSt                   // <-- to change the global namespace, do it here
   version: 0.002002,
   
 
-	get: function (key) { 
-		return localStorage.getItem(key);
-	},
+  get: function (key) { 
+    return localStorage.getItem(key);
+  },
  
-	set: function (key, value) { 
-		return localStorage.setItem(key, value); 
-	},
+  set: function (key, value) { 
+    return localStorage.setItem(key, value); 
+  },
 
 
   store: function (elt) {
@@ -76,23 +76,23 @@ var DSt                   // <-- to change the global namespace, do it here
     }
   },
 
-	// returns a key string, based on form name and form element name
+  // returns a key string, based on form name and form element name
   _form_elt_key: function (form_elt) {
     return  '_form_' + form_elt.form.name + '_field_' + form_elt.name;
   },
 
-	// returns the selected value of a group of radio buttons, or null
-	// if none are selected
-	_radio_value: function (radio_elt) {
-		if (typeof(radio_elt)=='string') 
-			radio_elt=document.getElementById(radio_elt);
-		var radios = radio_elt.form.elements[radio_elt.name];
-		var value;
+  // returns the selected value of a group of radio buttons, or null
+  // if none are selected
+  _radio_value: function (radio_elt) {
+    if (typeof(radio_elt)=='string') 
+      radio_elt=document.getElementById(radio_elt);
+    var radios = radio_elt.form.elements[radio_elt.name];
+    var value;
     for (var i in radios) {
-			if (radios[i].checked) value = radios[i].value;
-		}
-		return value;
-	},
+      if (radios[i].checked) value = radios[i].value;
+    }
+    return value;
+  },
 
 
 
@@ -109,12 +109,12 @@ var DSt                   // <-- to change the global namespace, do it here
     for (var i in form.elements) {
       var node = form.elements[i];
       if (node.tagName == 'TEXTAREA' ||
-					node.tagName == 'INPUT'    && 
-    				 node.type != 'file'     &&
-						 node.type != 'image'    &&
-          	 node.type != 'password' && 
-						 node.type != 'submit'   &&
-						 node.type != 'reset'       ) { fn(node); }
+          node.tagName == 'INPUT'    && 
+             node.type != 'file'     &&
+             node.type != 'image'    &&
+             node.type != 'password' && 
+             node.type != 'submit'   &&
+             node.type != 'reset'       ) { fn(node); }
     }
   },
   
