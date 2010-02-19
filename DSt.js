@@ -22,7 +22,7 @@
     DSt.store_form(form_elt);    // runs DSt.store(elt) on each form input
     DSt.populate_form(form_elt); // runs DSt.recall(elt) on each form input
 
-	  Element IDs may always be given in place of the elements themselves.
+    Element IDs may always be given in place of the elements themselves.
 */
 
 
@@ -66,9 +66,9 @@ var DSt                   // <-- to change the global namespace, do it here
     if (elt.type == 'checkbox') {
       DSt.set(key, elt.checked);
     }
-		else if (elt.type == 'radio') {
-			if (elt.checked) DSt.set(key, elt.value);
-		}
+    else if (elt.type == 'radio') {
+      if (elt.checked) DSt.set(key, elt.value);
+    }
     else {
       DSt.set(key, elt.value);
     }
@@ -84,9 +84,9 @@ var DSt                   // <-- to change the global namespace, do it here
     if (elt.type == 'checkbox') {
       elt.checked = stored_value==true;
     }
-		else if (elt.type == 'radio') {
-			if (elt.value == stored_value) elt.checked = true;
-		}
+    else if (elt.type == 'radio') {
+      if (elt.value == stored_value) elt.checked = true;
+    }
     else {
       elt.value = stored_value || '';
     }
@@ -98,13 +98,13 @@ var DSt                   // <-- to change the global namespace, do it here
 
 
 
-	recall_form: function (form) {
+  recall_form: function (form) {
     return DSt._apply_fn_to_form_inputs(form, DSt.recall);
   },
 
-	store_form: function (form) {
+  store_form: function (form) {
     return DSt._apply_fn_to_form_inputs(form, DSt.store);
-	},
+  },
 
   _apply_fn_to_form_inputs: function (form, fn) {
     if (typeof(form)=='string') form=document.getElementById(form);
@@ -115,7 +115,7 @@ var DSt                   // <-- to change the global namespace, do it here
       }
     }
   },
-	
+  
 
 
   // _storage_types() returns a string containing every supported
