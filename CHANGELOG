@@ -1,3 +1,8 @@
+0.002002  now handles radio buttons, checkboxes, text inputs, textareas;
+          storage now takes place directly in localStorage (not in lS.DSt)
+
+0.002001  new interface: get/set, store/recall, store_form/recall_form
+
 0.001003  reworked storage_types(); changed initializer in _gethash()
 
 0.001002  detabbed to 2spc; wrapped DSt definition in anonymous function to

@@ -28,32 +28,16 @@
 var DSt                   // <-- to change the global namespace, do it here
 = (function(){var DSt = { // <-- not here
 
-  version: 0.002001,
+  version: 0.002002,
   
 
-  get: function (key) {
-    var hash = DSt._gethash();
-    return hash[key];
-  },
-
-  set: function (key, value) {
-    var hash = DSt._gethash();
-    hash[key] = value;
-    DSt._sethash(hash);
-    return hash[key];
-  },
-
-  _gethash: function () {
-    if(typeof(localStorage.DSt) != 'string' ) {
-      localStorage.DSt = '{}';
-    }
-    return JSON.parse(localStorage.DSt);
-  },
-
-  _sethash: function (new_hash) {
-    localStorage.DSt = JSON.stringify(new_hash);
-    return new_hash;
-  },
+	get: function (key) { 
+		return localStorage.getItem(key);
+	},
+ 
+	set: function (key, value) { 
+		return localStorage.setItem(key, value); 
+	},
 
 
   store: function (elt) {
@@ -63,10 +47,11 @@ var DSt                   // <-- to change the global namespace, do it here
     var key = DSt._form_elt_key(elt);
 
     if (elt.type == 'checkbox') {
-      DSt.set(key, elt.checked);
+      DSt.set(key, elt.checked ? 1 : 0);
     }
     else if (elt.type == 'radio') {
-      if (elt.checked) DSt.set(key, elt.value);
+      //if (elt.checked) DSt.set(key, elt.value);
+      DSt.set(key, DSt._radio_value(elt));
     }
     else {
       DSt.set(key, elt.value);
@@ -81,7 +66,7 @@ var DSt                   // <-- to change the global namespace, do it here
     var stored_value = DSt.get(key);
 
     if (elt.type == 'checkbox') {
-      elt.checked = stored_value==true;
+      elt.checked = stored_value==1
     }
     else if (elt.type == 'radio') {
       if (elt.value == stored_value) elt.checked = true;
@@ -91,9 +76,23 @@ var DSt                   // <-- to change the global namespace, do it here
     }
   },
 
+	// returns a key string, based on form name and form element name
   _form_elt_key: function (form_elt) {
     return  '_form_' + form_elt.form.name + '_field_' + form_elt.name;
   },
+
+	// returns the selected value of a group of radio buttons, or null
+	// if none are selected
+	_radio_value: function (radio_elt) {
+		if (typeof(radio_elt)=='string') 
+			radio_elt=document.getElementById(radio_elt);
+		var radios = radio_elt.form.elements[radio_elt.name];
+		var value;
+    for (var i in radios) {
+			if (radios[i].checked) value = radios[i].value;
+		}
+		return value;
+	},
 
 
 
@@ -107,11 +106,15 @@ var DSt                   // <-- to change the global namespace, do it here
 
   _apply_fn_to_form_inputs: function (form, fn) {
     if (typeof(form)=='string') form=document.getElementById(form);
-    for (var i in form.childNodes) {
-      var node = form.childNodes[i];
-      if (node.tagName == 'INPUT' || node.tagName == 'TEXTAREA') {
-        fn(node);
-      }
+    for (var i in form.elements) {
+      var node = form.elements[i];
+      if (node.tagName == 'TEXTAREA' ||
+					node.tagName == 'INPUT'    && 
+    				 node.type != 'file'     &&
+						 node.type != 'image'    &&
+          	 node.type != 'password' && 
+						 node.type != 'submit'   &&
+						 node.type != 'reset'       ) { fn(node); }
     }
   },
   
