@@ -22,46 +22,48 @@
     DSt.populate_form(form_elt); // runs DSt.recall(elt) on each form input
 
     Element IDs may always be given in place of the elements themselves.
+    Values handled by DSt.get/DSt.set can be anything JSON-encodable.
 */
 
 
 var DSt                   // <-- to change the global namespace, do it here
 = (function(){var DSt = { // <-- not here
 
-  version: 0.002002,
-  
+  version: 0.002003,
 
   get: function (key) { 
-    return localStorage.getItem(key);
+    var value = localStorage.getItem(key);
+    if (value === undefined || value === null) 
+      value = 'null';
+    else 
+      value = value.toString();
+    return JSON.parse(value);
   },
  
   set: function (key, value) { 
-    return localStorage.setItem(key, value); 
+    return localStorage.setItem(key, JSON.stringify(value)); 
   },
 
 
   store: function (elt) {
-    if (typeof(elt) == 'string') {
-      elt = document.getElementById(elt);
-    }
+    if (typeof(elt) == 'string') elt = document.getElementById(elt);
+    
     var key = DSt._form_elt_key(elt);
 
     if (elt.type == 'checkbox') {
       DSt.set(key, elt.checked ? 1 : 0);
     }
     else if (elt.type == 'radio') {
-      //if (elt.checked) DSt.set(key, elt.value);
       DSt.set(key, DSt._radio_value(elt));
     }
     else {
-      DSt.set(key, elt.value);
+      DSt.set(key, elt.value || '');
     }
   },
 
   recall: function (elt) {
-    if (typeof(elt) == 'string') {
-      elt = document.getElementById(elt);
-    }
+    if (typeof(elt) == 'string') elt = document.getElementById(elt);
+    
     var key = DSt._form_elt_key(elt);
     var stored_value = DSt.get(key);
 
@@ -86,9 +88,11 @@ var DSt                   // <-- to change the global namespace, do it here
   _radio_value: function (radio_elt) {
     if (typeof(radio_elt)=='string') 
       radio_elt=document.getElementById(radio_elt);
+
     var radios = radio_elt.form.elements[radio_elt.name];
-    var value;
-    for (var i in radios) {
+    var nradios = radios.length;
+    var value = null;
+    for (var i=0; i<nradios; i++) {
       if (radios[i].checked) value = radios[i].value;
     }
     return value;
@@ -106,7 +110,8 @@ var DSt                   // <-- to change the global namespace, do it here
 
   _apply_fn_to_form_inputs: function (form, fn) {
     if (typeof(form)=='string') form=document.getElementById(form);
-    for (var i in form.elements) {
+    var nelts = form.elements.length;
+    for (var i=0; i<nelts; i++) {
       var node = form.elements[i];
       if (node.tagName == 'TEXTAREA' ||
           node.tagName == 'INPUT'    && 
