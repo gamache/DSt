@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>DSt Test Page</title>
+	<script src="http://code.jquery.com/jquery-1.4.2.min.js"></script>
+	<script src="../jQuery.DSt.js"></script>
+</head>
+<body>
+
+<h1>jQuery.DSt Test Page</h1>
+
+<form name="dst_testform">
+
+	<p>
+		<label for="text_input">Text Input</label>
+		<input type="text" name="text_input">
+	</p>
+
+	<p>
+		<label for="radio_input">Radio Input</label>
+		<input type="radio" name="radio_input" value="1">1 &nbsp;&nbsp;
+    <input type="radio" name="radio_input" value="2">2 &nbsp;&nbsp;
+    <input type="radio" name="radio_input" value="3">3 
+	</p>
+
+	<p>
+		<label for="checkbox_input">Checkbox Input</label>
+		<input type="checkbox" name="checkbox_input">
+	</p>
+
+	<p>
+		<label for="textarea_input">Textarea Input</label>
+		<textarea name="textarea_input"></textarea>
+	</p>
+
+	<p>
+		<input type="button" value="Store"  onclick="jQuery.DSt.store_form(this.form)">
+    <input type="button" value="Recall" onclick="jQuery.DSt.recall_form(this.form)">
+    <input type="reset"  value="Reset Form">
+	</p>
+
+</form>
+
+</body>
+</html>
+

@@ -1,3 +1,10 @@
+0.002004  moved source code to src/DSt.js; this source file is used to generate
+          minified DSt.js and minified jQuery plugin jQuery.DSt.js.  added 
+          Makefile for this, which uses the Yahoo YUI Compressor (not
+          included).  added test/ directory, containing simple test HTML.
+          changed store and recall to bail when presented with nonexistent
+          or nameless elements.
+
 0.002003  now works in IE 8; JSON storage (re-)added
 
 0.002002  now handles radio buttons, checkboxes, text inputs, textareas;
