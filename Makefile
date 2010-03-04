@@ -5,7 +5,7 @@ all: minified
 minified: jquery dst
 
 jquery:
-	sed -e 's/^var DSt/jQuery.DSt/' <src/DSt.js | $(YUIC) >jQuery.DSt.js
+	sed -e 's/^var DSt/jQuery.DSt/' <src/DSt.js | $(YUIC) >jquery.dst.js
 
 dst:
 	$(YUIC) src/DSt.js > DSt.js

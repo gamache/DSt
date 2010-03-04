@@ -23,6 +23,9 @@
 
     Element IDs may always be given in place of the elements themselves.
     Values handled by DSt.get/DSt.set can be anything JSON-encodable.
+
+    You may use jQuery.DSt or $.DSt instead of DST if you're using 
+      jquery.dst.js.
 */
 
 
@@ -31,7 +34,7 @@
 var DSt                   // <-- to change the global namespace, do it here
 = (function(){var DSt = { // <-- not here
 
-  version: 0.002004,
+  version: 0.002005,
 
   get: function (key) { 
     var value = localStorage.getItem(key);
@@ -49,7 +52,7 @@ var DSt                   // <-- to change the global namespace, do it here
 
   store: function (elt) {
     if (typeof(elt) == 'string') elt = document.getElementById(elt);
-		if (!elt || elt.name == '') return this; // bail on nameless/missing elt
+    if (!elt || elt.name == '') return this; // bail on nameless/missing elt
 
     var key = DSt._form_elt_key(elt);
 
@@ -83,7 +86,7 @@ var DSt                   // <-- to change the global namespace, do it here
       elt.value = stored_value || '';
     }
 
-		return this;
+    return this;
   },
 
   // returns a key string, based on form name and form element name
@@ -130,7 +133,7 @@ var DSt                   // <-- to change the global namespace, do it here
              node.type != 'submit'   &&
              node.type != 'reset'       ) { fn(node); }
     }
-		return this;
+    return this;
   },
   
 
